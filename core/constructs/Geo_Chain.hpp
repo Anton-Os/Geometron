@@ -30,7 +30,7 @@ public:
     void init() override {
         _origin = getOrigin(); // should this be in base class???
         for(unsigned c = 0; c < _geoActors.size(); c++) _geoActors[c].updatePos(_origin + (_direction * c));
-#ifdef TOPL_ENABLE_PHYSICS
+#ifdef GEO_ENABLE_PHYSICS
         _links.resize(_geoActors.size() - 1);
 #endif
     }
@@ -38,7 +38,7 @@ public:
     void configure(Topl_Scene* scene) override {
         for(unsigned c = 0; c < _geoActors.size(); c++){
             scene->addGeometry(getLinkName(c + 1), &_geoActors[c]);
-#ifdef TOPL_ENABLE_PHYSICS
+#ifdef GEO_ENABLE_PHYSICS
             scene->addPhysics(getLinkName(c + 1), &_physActors.at(c));
             if(c > 0) scene->addLink(&_links[c - 1], getLinkName(c), getLinkName(c + 1));
 #endif

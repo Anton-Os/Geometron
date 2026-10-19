@@ -87,7 +87,7 @@ public:
 	void configure(Topl_Scene* scene) override {
 		for(unsigned c = 0; c < _params.getGridSize(); c++){
 			scene->addGeometry(getCellName(c + 1), &_geoActors[c]);
-#ifdef TOPL_ENABLE_PHYSICS
+#ifdef GEO_ENABLE_PHYSICS
 			scene->addPhysics(getCellName(c + 1), &_physActors.at(c));
 #endif
 		}

@@ -7,15 +7,15 @@
 #define PANE_SIZE 0.5F
 #define PANE_Z 0.0F
 
-class Geo_Billboard : public Geo_Grid {
+class Geo_Board : public Geo_Grid {
 public:
-	Geo_Billboard(const std::string& prefix, unsigned short rows, unsigned short columns) : Geo_Grid(prefix, &childMesh, Geo_Grid_Params(
+	Geo_Board(const std::string& prefix, unsigned short rows, unsigned short columns) : Geo_Grid(prefix, &childMesh, Geo_Grid_Params(
 		std::make_pair(rows, PANE_SIZE / rows), 
 		std::make_pair(columns, PANE_SIZE / columns), 
 		std::make_pair(1, 0.0F))
 	){ init(); }
 
-	Geo_Billboard(const std::string& prefix, unsigned short rows, unsigned short columns, Topl_Scene* scene) : Geo_Grid(prefix, &childMesh, Geo_Grid_Params(
+	Geo_Board(const std::string& prefix, unsigned short rows, unsigned short columns, Topl_Scene* scene) : Geo_Grid(prefix, &childMesh, Geo_Grid_Params(
 		std::make_pair(rows, PANE_SIZE / rows), 
 		std::make_pair(columns, PANE_SIZE / columns), 
 		std::make_pair(1, 0.0F))
@@ -133,24 +133,24 @@ protected:
 #endif
 };
 
-struct Geo_Paneboard : Geo_Billboard {
-	Geo_Paneboard(const std::string& prefix) : Geo_Billboard(prefix, 1, 1){}
-    Geo_Paneboard(const std::string& prefix, Topl_Scene* scene) : Geo_Billboard(prefix, 1, 1, scene){}
+struct Geo_Paneboard : Geo_Board {
+	Geo_Paneboard(const std::string& prefix) : Geo_Board(prefix, 1, 1){}
+    Geo_Paneboard(const std::string& prefix, Topl_Scene* scene) : Geo_Board(prefix, 1, 1, scene){}
 };
 
-struct Geo_Crossboard : Geo_Billboard {
-    Geo_Crossboard(const std::string& prefix, unsigned short rows) : Geo_Billboard(prefix, rows, 1){}
-    Geo_Crossboard(const std::string& prefix, unsigned short rows, Topl_Scene* scene) : Geo_Billboard(prefix, rows, 1, scene){}
+struct Geo_Crossboard : Geo_Board {
+    Geo_Crossboard(const std::string& prefix, unsigned short rows) : Geo_Board(prefix, rows, 1){}
+    Geo_Crossboard(const std::string& prefix, unsigned short rows, Topl_Scene* scene) : Geo_Board(prefix, rows, 1, scene){}
 };
 
-struct Geo_Listboard :  Geo_Billboard {
-    Geo_Listboard(const std::string& prefix, unsigned short cols) : Geo_Billboard(prefix, 1, cols){}
-    Geo_Listboard(const std::string& prefix, unsigned short cols, Topl_Scene* scene) : Geo_Billboard(prefix, 1, cols, scene){}
+struct Geo_Listboard :  Geo_Board {
+    Geo_Listboard(const std::string& prefix, unsigned short cols) : Geo_Board(prefix, 1, cols){}
+    Geo_Listboard(const std::string& prefix, unsigned short cols, Topl_Scene* scene) : Geo_Board(prefix, 1, cols, scene){}
 };
 
-struct Geo_Gridboard : Geo_Billboard {
-    Geo_Gridboard(const std::string& prefix, unsigned short num) : Geo_Billboard(prefix, num, num){}
-    Geo_Gridboard(const std::string& prefix,unsigned short num, Topl_Scene* scene) : Geo_Billboard(prefix, num, num, scene){}
+struct Geo_Gridboard : Geo_Board {
+    Geo_Gridboard(const std::string& prefix, unsigned short num) : Geo_Board(prefix, num, num){}
+    Geo_Gridboard(const std::string& prefix,unsigned short num, Topl_Scene* scene) : Geo_Board(prefix, num, num, scene){}
 };
 
 #define GEO_LAYOUT_H

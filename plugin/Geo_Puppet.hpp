@@ -40,8 +40,7 @@ struct Geo_Puppet : public Geo_Construct<Geo_Puppet> {
         scene->addGeometry(getPrefix() + "leftLeg", &_geoActors[PUPPET_LeftLeg]);
         scene->addGeometry(getPrefix() + "rightLeg", &_geoActors[PUPPET_RightLeg]);
     }
-
-#ifdef TOPL_ENABLE_PHYSICS
+#ifdef GEO_ENABLE_PHYSICS // should override TOPL_ENABLE_PHYSICS?
     void addPhysics(Topl_Scene* scene){
         // Adding Physics
         _physActors.resize(PUPPET_PARTS);
@@ -116,7 +115,7 @@ public:
         Geo_Puppet::configure(scene);
         for(unsigned p = 0; p < PUPPET_PARTS; p++)
             scene->addTexture(_geoActors[p].getName(), &spriteImgs[p]);
-#ifdef TOPL_ENABLE_PHYSICS
+#ifdef GEO_ENABLE_PHYSICS
         Geo_Puppet::addPhysics(scene);
 #endif
     }
@@ -131,7 +130,7 @@ protected:
 };
 
 #endif
-#ifdef TOPL_ENABLE_MODELS
+#ifdef GEO_ENABLE_MODELS // should be included if TOPL_ENABLE_MODELS is defined
 
 #include "constructs/Geo_Model.hpp"
 

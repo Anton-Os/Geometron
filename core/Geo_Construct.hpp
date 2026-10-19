@@ -20,7 +20,7 @@ public:
     Geo_Construct(const std::string& prefix, const Geo_Mesh* mesh, unsigned count){ // Duplicate items constructor
         _prefix = prefix;
         if(_geoActors.empty()) _geoActors.resize(count);
-#ifdef TOPL_ENABLE_PHYSICS    
+#ifdef GEO_ENABLE_PHYSICS    
         if(_physActors.empty()) _physActors.resize(count);
 #endif
         for(unsigned g = 0; g < count; g++) _geoActors[g] = Geo_Actor(mesh);
@@ -42,9 +42,9 @@ public:
     // TODO: Set a draw function for all composite meshes?
     unsigned getActorCount() const { return _geoActors.size(); }
     Geo_Actor* getGeoActor(unsigned short a){ return (a < _geoActors.size())? &_geoActors[a] : nullptr; }
-#ifdef TOPL_ENABLE_PHYSICS
-    Phys_Actor* getPhysActor(unsigned short a){ return (a < _physActors.size())? &_physActors[a] : nullptr; }
-    Phys_Connector* getPhysLink(unsigned short l){ return (l < _links.size())? &_links[l] : nullptr; }
+#ifdef GEO_ENABLE_PHYSICS
+    RigidBody* getPhysActor(unsigned short a){ return (a < _physActors.size())? &_physActors[a] : nullptr; }
+    Joint* getPhysLink(unsigned short l){ return (l < _links.size())? &_links[l] : nullptr; }
 #endif
     void shift(Vec3f vec){ for(unsigned g = 0; g < _geoActors.size(); g++) _geoActors[g].updatePos(vec); }
     void toggleShow(){ for (unsigned g = 0; g < _geoActors.size(); g++) _geoActors[g].isShown = !_geoActors[g].isShown;  }
@@ -95,9 +95,9 @@ protected:
 
     std::string _prefix;
     std::vector<Geo_Actor> _geoActors;
-#ifdef TOPL_ENABLE_PHYSICS
-    std::vector<Phys_Actor> _physActors; // physics actors
-	std::vector<Phys_Connector> _links; // physics links
+#ifdef GEO_ENABLE_PHYSICS
+    std::vector<RigidBody> _physActors; // physics actors
+	std::vector<Joint> _links; // physics links
 #endif
 };
 

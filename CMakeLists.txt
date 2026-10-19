@@ -7,8 +7,8 @@ if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
     message("Install Prefix ${CMAKE_INSTALL_PREFIX}")
 endif()
 
-set(SUPPORT_MODELS TRUE CACHE BOOL "Include 3D model loading")
-set(SUPPORT_FORMS TRUE CACHE BOOL "Include generative forms support")
+set(SUPPORT_MODELS TRUE CACHE BOOL "Include 3D model loading" FORCE)
+set(SUPPORT_FORMS TRUE CACHE BOOL "Include generative forms support" FORCE)
 
 if(SUPPORT_MODELS)
 include("scripts/extTargets.cmake") # Builds external dependencies

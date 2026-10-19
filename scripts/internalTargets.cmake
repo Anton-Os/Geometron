@@ -12,7 +12,7 @@ if(SUPPORT_FORMS) # TODO: See if external dependencies or more robust system is 
 endif()
 
 add_library(GEOLIB SHARED ${geometry_src}) # Geometry Library
-target_include_directories(GEOLIB PRIVATE core plugin maths)
+target_include_directories(GEOLIB PRIVATE core plugin support)
 set_target_properties(GEOLIB PROPERTIES FOLDER "Libraries")
 target_include_directories(GEOLIB INTERFACE
     $<BUILD_INTERFACE:${interfaceHeaders}>
