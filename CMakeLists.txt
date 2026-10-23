@@ -7,11 +7,10 @@ if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
     message("Install Prefix ${CMAKE_INSTALL_PREFIX}")
 endif()
 
-set(SUPPORT_MODELS TRUE CACHE BOOL "Include 3D model loading" FORCE)
-set(SUPPORT_FORMS TRUE CACHE BOOL "Include generative forms support" FORCE)
+set(SUPPORT_MODELS TRUE CACHE BOOL "Include mesh from model loading with Assimp" FORCE)
+set(SUPPORT_ALGOFORMS TRUE CACHE BOOL "Include mesh from algo support with OpenVDB" FORCE)
+set(SUPPORT_PHOTOGRAM TRUE CACHE BOOL "Include mesh from image reconstruction with OpenMVG" FORCE)
 
-if(SUPPORT_MODELS)
 include("scripts/extTargets.cmake") # Builds external dependencies
-endif()
 include("scripts/internalTargets.cmake") # Builds GEOLIB
 include("scripts/installTargets.cmake") # Installs GEOLIB and headers
