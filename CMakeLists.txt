@@ -8,9 +8,10 @@ if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
 endif()
 
 set(SUPPORT_MODELS TRUE CACHE BOOL "Include mesh from model loading with Assimp" FORCE)
-set(SUPPORT_ALGOFORMS TRUE CACHE BOOL "Include mesh from algo support with OpenVDB" FORCE)
-set(SUPPORT_PHOTOGRAM TRUE CACHE BOOL "Include mesh from image reconstruction with OpenMVG" FORCE)
+set(SUPPORT_ALGOFORMS FALSE CACHE BOOL "Include mesh from algo support with OpenVDB" FORCE)
+set(SUPPORT_PHOTOGRAM FALSE CACHE BOOL "Include mesh from image reconstruction with OpenMVG" FORCE)
 
 include("scripts/extTargets.cmake") # Builds external dependencies
 include("scripts/internalTargets.cmake") # Builds GEOLIB
+include("scripts/demoTargets.cmake") # Builds demo exporter
 include("scripts/installTargets.cmake") # Installs GEOLIB and headers

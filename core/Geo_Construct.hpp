@@ -4,8 +4,21 @@
 #include <string>
 
 #include "Geo_Mesh.hpp"
+#include "Geo_Actor.hpp"
 
+#if defined(__has_include)
+#if __has_include("Topl_Scene.hpp")
 #include "Topl_Scene.hpp"
+#define GEO_HAS_TOPL_SCENE
+#endif
+#endif
+
+#ifndef GEO_HAS_TOPL_SCENE // standalone build without Topologic, minimal scene so constructs can still be created and exported
+class Topl_Scene {
+public:
+    void addGeometry(const std::string& name, Geo_Actor* actor){ (void)name; (void)actor; }
+};
+#endif
 
 // Tree
 

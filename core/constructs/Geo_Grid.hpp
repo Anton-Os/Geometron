@@ -1,5 +1,7 @@
 #ifndef GEO_GRID_H
 
+#include <iostream>
+
 #include "Geo_Construct.hpp"
 
 // Grid Parameters

@@ -1,5 +1,8 @@
 #ifndef GEO_ACTOR_H
 
+#include <algorithm>
+#include <cctype>
+
 #include "Geo_Mesh.hpp"
 
 // Actor

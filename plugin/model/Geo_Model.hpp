@@ -33,22 +33,33 @@ public:
         }
     }
 
-    static void exportModel(const std::string& filePath, const Geo_Mesh* mesh, const std::string& format = "obj"){
-        exporter.Export(mesh->getVertices(), mesh->getIndices(), format, filePath);
+    // Exports a single mesh, format is an Assimp format id or file extension (e.g. obj, stl, ply, fbx, glb, dae)
+    static Geo_Model_ExportResult exportModel(const std::string& filePath, const Geo_Mesh* mesh, const std::string& format = "obj", const Geo_Model_ExportOpts& opts = Geo_Model_ExportOpts()){
+        return exportModelItems(filePath, { Geo_Model_ExportItem("mesh", mesh) }, format, opts);
     }
 
-    static void exportModel(const std::string& filePath, const Geo_Construct* construct, const std::string& format = "obj"){ 
+    // Exports every visible actor of a construct as its own mesh, actor position, rotation, and scale are baked in
+    template <typename ConstructType>
+    static Geo_Model_ExportResult exportModel(const std::string& filePath, Geo_Construct<ConstructType>* construct, const std::string& format = "obj", const Geo_Model_ExportOpts& opts = Geo_Model_ExportOpts()){
+        std::vector<Geo_Model_ExportItem> items;
         for(unsigned n = 0; n < construct->getActorCount(); n++){
             Geo_Actor* actor = construct->getGeoActor(n);
-            if(actor != nullptr && actor->getMesh() != nullptr)
-                exporter.Export(actor->getMesh()->getVertices(), actor->getMesh()->getIndices(), format, filePath);
+            if(actor == nullptr || actor->getMesh() == nullptr || !actor->isShown) continue;
+
+            Geo_Model_ExportItem item(construct->getPrefix() + ((actor->getName() != DEFAULT_ACTOR_NAME)? actor->getName() : std::to_string(n + 1)), actor->getMesh());
+            item.position = *actor->getPos();
+            item.rotation = *actor->getRot();
+            item.scale = *actor->getSize();
+            items.push_back(item);
         }
+        return exportModelItems(filePath, items, format, opts);
     }
 
     void init() override {
         const unsigned aiFlags = aiProcess_CalcTangentSpace | aiProcess_Triangulate | aiProcess_JoinIdenticalVertices | aiProcess_SortByPType;
 
         const aiScene* aiScene = importer.ReadFile(_filePath, aiFlags);
+        if(aiScene == nullptr || aiScene->mRootNode == nullptr) return; // file could not be loaded
 
         _nodeCount = aiScene->mRootNode->mNumChildren;
         _nodes = (Geo_Model_Node**)malloc(_nodeCount * sizeof(Geo_Model_Node*));
@@ -96,7 +107,6 @@ protected:
 	// TODO: include animation and other relevant data
 private:
     Assimp::Importer importer;
-    Assimp::Exporter exporter;
 
     Geo_Model_Node** _nodes = nullptr; // all nodes data
     unsigned _nodeCount = 0; // all nodes count

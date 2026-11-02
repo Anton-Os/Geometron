@@ -13,3 +13,7 @@ file(GLOB_RECURSE interfaceHeaders
 
 install(FILES ${interfaceHeaders} DESTINATION include/Geometron)
 install(EXPORT Geometron DESTINATION lib/Geometron FILE GeometronConfig.cmake)
+
+# For Exporter
+
+install(TARGETS Geo_Exporter RUNTIME DESTINATION bin)

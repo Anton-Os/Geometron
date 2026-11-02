@@ -79,5 +79,53 @@ private:
 }
 #endif
 
-#define Geo_Model_Node_H
+#ifdef __cplusplus
+// Model Exporting
+
+#include <string>
+#include <vector>
+
+enum EXPORT_Normals {
+	EXPORT_Normals_Smooth = 0, // averaged per-vertex normals computed from triangles
+	EXPORT_Normals_Flat = 1, // faceted normals, vertices are split per triangle
+	EXPORT_Normals_Mesh = 2, // normals stored inside the Geo_Vertex data
+	EXPORT_Normals_None = 3 // no normals are written
+};
+
+struct Geo_Model_ExportOpts {
+	EXPORT_Normals normals = EXPORT_Normals_Smooth;
+	bool texcoords = true; // writes Geo_Vertex texcoords as first uv channel
+	bool colors = false; // writes Geo_Vertex colors as first color channel
+	bool merge = false; // combines all items into a single mesh
+};
+
+struct Geo_Model_ExportItem { // mesh with placement, transforms are baked into exported vertices
+	Geo_Model_ExportItem(){}
+	Geo_Model_ExportItem(const std::string& n, const Geo_Mesh* m) : name(n), mesh(m){}
+
+	std::string name = "mesh";
+	const Geo_Mesh* mesh = nullptr;
+	Vec3f position = VEC_3F_ZERO;
+	Vec3f rotation = VEC_3F_ZERO; // same convention as rotateTForm()
+	Vec3f scale = VEC_3F_ONES;
+};
+
+struct Geo_Model_ExportResult {
+	bool success = false;
+	std::string message; // error or summary message
+	unsigned meshCount = 0, vertexCount = 0, faceCount = 0;
+	unsigned droppedFaces = 0; // triangles skipped for invalid or degenerate indices
+};
+
+DllExport std::string getExportFormatId(const std::string& format); // resolves format id or file extension, empty if unsupported
+DllExport std::string getExportFormatExt(const std::string& formatId); // file extension for a format id
+DllExport std::vector<std::string> getExportFormats(); // lines of "id  .ext  description"
+
+DllExport Geo_Model_ExportResult exportModelItems(
+	const std::string& filePath, const std::vector<Geo_Model_ExportItem>& items,
+	const std::string& format, const Geo_Model_ExportOpts& opts
+);
 #endif
+
+#define Geo_Model_Node_H
+#endif

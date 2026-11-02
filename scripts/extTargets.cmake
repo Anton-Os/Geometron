@@ -2,6 +2,8 @@ include(ExternalProject)
 
 ### 3D Models using Assimp
 
+set(EXTERNAL_PROJ_DIR "${CMAKE_BINARY_DIR}/PROJECTS")
+
 if(SUPPORT_MODELS)
 	ExternalProject_Add(ASSIMP # 3D Model loading
 		GIT_REPOSITORY "https://github.com/assimp/assimp.git"
