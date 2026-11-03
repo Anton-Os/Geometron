@@ -16,4 +16,6 @@ install(EXPORT Geometron DESTINATION lib/Geometron FILE GeometronConfig.cmake)
 
 # For Exporter
 
-install(TARGETS Geo_Exporter RUNTIME DESTINATION bin)
+if(SUPPORT_MODELS AND Assimp_FOUND)
+    install(TARGETS Geo_Exporter RUNTIME DESTINATION bin)
+endif()
