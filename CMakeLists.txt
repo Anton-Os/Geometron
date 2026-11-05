@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.7...3.10)
+cmake_minimum_required(VERSION 3.24...3.31) # 3.24 is required by OpenVDB, which is built with the same CMake
 project(Geometron DESCRIPTION "Geometron Mesh Library")
 
 set (CMAKE_CXX_STANDARD 11)

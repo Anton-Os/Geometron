@@ -35,3 +35,18 @@ if(SUPPORT_MODELS AND Assimp_FOUND) # linking targets to Assimp
         target_link_libraries(GEOLIB PUBLIC ${ZLIB_LIBRARIES}) # ${irrXML_lib})
     endif()
 endif()
+
+if(OpenVDB_FOUND) # algorithmic formations
+    target_link_libraries(GEOLIB PRIVATE OpenVDB::openvdb) # OpenVDB needs C++17, propagated by its target
+    target_compile_definitions(GEOLIB PRIVATE GEO_ENABLE_ALGOFORMS)
+endif()
+
+if(OpenMVG_FOUND) # photographic reconstruction
+    target_link_libraries(GEOLIB PRIVATE OpenMVG::openMVG_sfm OpenMVG::openMVG_multiview OpenMVG::openMVG_image)
+    target_compile_definitions(GEOLIB PRIVATE GEO_ENABLE_PHOTOGRAM)
+endif()
+
+if(MSVC AND (OpenVDB_FOUND OR OpenMVG_FOUND))
+    target_compile_options(GEOLIB PRIVATE /bigobj) # OpenVDB and Eigen headers produce large object files
+    target_compile_definitions(GEOLIB PRIVATE NOMINMAX _USE_MATH_DEFINES)
+endif()
