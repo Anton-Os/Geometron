@@ -19,7 +19,7 @@ target_include_directories(GEOLIB INTERFACE
     $<INSTALL_INTERFACE:include/Geometron>
 )
 
-if(SUPPORT_MODELS AND Assimp_FOUND) # linking targets to Assimp
+if(SUPPORT_MODELS AND assimp_FOUND) # linking targets to Assimp
    # target_link_libraries(GEOLIB PUBLIC assimp::assimp ${irrXML_lib} ${zlib_lib}) # for release build
    target_link_libraries(GEOLIB PUBLIC assimp::assimp ${irrXMLd_lib} ${zlibd_lib}) # for debug build
    if(WIN32)

@@ -1,8 +1,8 @@
 # Geo_Exporter: command line tool encoding Geo_Mesh and Geo_Construct types into 3D model files
 
-if(NOT (SUPPORT_MODELS AND Assimp_FOUND))
+if(NOT (SUPPORT_MODELS AND assimp_FOUND))
     message(WARNING "Geo_Exporter disabled, requires Assimp (SUPPORT_MODELS)")
-    return()
+return()
 endif()
 
 add_executable(Geo_Exporter exporter/Geo_Exporter.cpp)

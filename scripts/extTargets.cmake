@@ -4,6 +4,12 @@ include(ExternalProject)
 
 set(EXTERNAL_PROJ_DIR "${CMAKE_BINARY_DIR}/PROJECTS")
 
+if(IS_DIRECTORY ${CMAKE_INSTALL_PREFIX}/lib64)
+	set(EXTERNAL_LIB_DIR ${CMAKE_INSTALL_PREFIX}/lib64)
+else()
+	set(EXTERNAL_LIB_DIR ${CMAKE_INSTALL_PREFIX}/lib)
+endif()
+
 if(SUPPORT_MODELS)
 	ExternalProject_Add(ASSIMP # 3D Model loading
 		GIT_REPOSITORY "https://github.com/assimp/assimp.git"
@@ -14,11 +20,11 @@ if(SUPPORT_MODELS)
 		PREFIX ${EXTERNAL_PROJ_DIR}/Assimp
 		INSTALL_DIR ${CMAKE_INSTALL_PREFIX}
 	)
-        find_package(Assimp PATHS ${CMAKE_INSTALL_PREFIX}/lib/scripts/assimp-6.0)
+        find_package(assimp PATHS ${CMAKE_INSTALL_PREFIX}/lib/scripts/assimp-6.0 ${EXTERNAL_LIB_DIR}/cmake/assimp-6.0)
 endif()
 
-if(SUPPORT_MODELS OR Assimp_FOUND)
-	if(Assimp_FOUND)
+if(SUPPORT_MODELS AND assimp_FOUND)
+	if(assimp_FOUND)
 		message(STATUS "Assimp loading success!")
 		list(APPEND geometry_src plugin/model/Geo_Model_Node.cpp)
 	else()
@@ -43,10 +49,20 @@ if(SUPPORT_ALGOFORMS)
 		PREFIX ${EXTERNAL_PROJ_DIR}/OpenVDB
 		INSTALL_DIR ${CMAKE_INSTALL_PREFIX}
 	)
-        find_package(OpenVDB PATHS ${CMAKE_INSTALL_PREFIX}/lib)
+        if(EXISTS ${EXTERNAL_LIB_DIR}/cmake/OpenVDB/FindOpenVDB.cmake)
+		list(APPEND CMAKE_MODULE_PATH ${EXTERNAL_LIB_DIR}/cmake/OpenVDB)
+		# include(${EXTERNAL_LIB_DIR}/cmake/OpenVDB/FindBlosc.cmake)
+		include(${EXTERNAL_LIB_DIR}/cmake/OpenVDB/FindOpenVDB.cmake)
+		message(STATUS "Ran OpenVDB find script, see headers: ${OpenVDB_INCLUDE_DIR} and libraries: ${OpenVDB_LIBRARIES}")
+		set(OpenVDB_FOUND TRUE)
+	else()
+		message(STATUS "Could not find OpenVDB")
+		set(OpenVDB_FOUND FALSE)
+	endif()
+	# find_package(OpenVDB PATHS ${CMAKE_INSTALL_PREFIX}/lib)
 endif()
 
-if(SUPPORT_ALGOFORMS OR OpenVDB_FOUND)
+if(SUPPORT_ALGOFORMS AND OpenVDB_FOUND)
 	if(OpenVDB_FOUND)
 		message(STATUS "OpenVDB loading success!")
 		list(APPEND geometry_src plugin/form/Geo_Freeform.cpp)
@@ -68,10 +84,10 @@ if(SUPPORT_PHOTOGRAM)
 		PREFIX ${EXTERNAL_PROJ_DIR}/OpenMVG
 		INSTALL_DIR ${CMAKE_INSTALL_PREFIX}
 	)
-        find_package(OpenMVG PATHS ${CMAKE_INSTALL_PREFIX}/lib)
+        find_package(OpenMVG PATHS ${CMAKE_INSTALL_PREFIX}/lib ${CMAKE_INSTALL_PREFIX}/lib64)
 endif()
 
-if(SUPPORT_PHOTOGRAM OR OpenMVG_FOUND)
+if(SUPPORT_PHOTOGRAM AND OpenMVG_FOUND)
 	if(OpenMVG_FOUND)
 		message(STATUS "OpenMVG loading success!")
 		# list(APPEND geometry_src plugin/recon/Geo_Photogram.cpp) TODO: Add source
