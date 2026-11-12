@@ -8,10 +8,12 @@ if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
 endif()
 
 set(SUPPORT_MODELS TRUE CACHE BOOL "Include mesh from model loading with Assimp" FORCE)
+set(SUPPORT_FORMS FALSE CACHE BOOL "Include mesh from generated forms, no external dependency")
+set(SUPPORT_RECON FALSE CACHE BOOL "Include mesh from heightmaps and scans, no external dependency")
 set(SUPPORT_ALGOFORMS FALSE CACHE BOOL "Include mesh from algo support with OpenVDB")
 set(SUPPORT_PHOTOGRAM FALSE CACHE BOOL "Include mesh from image reconstruction with OpenMVG")
 
 include("scripts/extTargets.cmake") # Builds external dependencies
-include("scripts/internalTargets.cmake") # Builds GEOLIB
+include("scripts/internalTargets.cmake") # Builds SDLIB library
 include("scripts/demoTargets.cmake") # Builds demo exporter
-include("scripts/installTargets.cmake") # Installs GEOLIB and headers
+include("scripts/installTargets.cmake") # Installs SDLIB and headers

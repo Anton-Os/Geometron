@@ -7,8 +7,20 @@ list(APPEND geometry_src
     core/meshes/Geo_Orboid.cpp
 )
 
-if(SUPPORT_FORMS) # TODO: See if external dependencies or more robust system is needed for forms
-    list(APPEND geometry_src plugin/form/Geo_Freeform.cpp)
+if(SUPPORT_FORMS OR SUPPORT_ALGOFORMS) # forms build without external dependencies, OpenVDB is optional
+    list(APPEND geometry_src
+        plugin/form/Geo_Freeform.cpp
+        plugin/form/Geo_Voxelform.cpp
+        plugin/form/Geo_Composite.cpp
+        plugin/form/Geo_Recursive.cpp
+    )
+endif()
+
+if(SUPPORT_RECON OR SUPPORT_PHOTOGRAM) # reconstruction builds without external dependencies, OpenMVG is optional
+    list(APPEND geometry_src
+        plugin/recon/Geo_Heightmap.cpp
+        plugin/recon/Geo_Scanmap.cpp
+    )
 endif()
 
 add_library(GEOLIB SHARED ${geometry_src}) # Geometry Library
@@ -18,6 +30,24 @@ target_include_directories(GEOLIB INTERFACE
     $<BUILD_INTERFACE:${interfaceHeaders}>
     $<INSTALL_INTERFACE:include/Geometron>
 )
+
+if(SUPPORT_ALGOFORMS AND OpenVDB_FOUND) # enables OpenVDB sections of plugin/form
+    set_target_properties(GEOLIB PROPERTIES CXX_STANDARD 17) # required by OpenVDB headers
+    target_compile_definitions(GEOLIB PUBLIC GEO_ENABLE_OPENVDB)
+    if(TARGET OpenVDB::openvdb)
+        target_link_libraries(GEOLIB PUBLIC OpenVDB::openvdb)
+    else()
+        target_include_directories(GEOLIB PUBLIC ${OpenVDB_INCLUDE_DIRS})
+        target_link_libraries(GEOLIB PUBLIC ${OpenVDB_LIBRARIES})
+    endif()
+endif()
+
+if(SUPPORT_PHOTOGRAM AND OpenMVG_FOUND) # enables OpenMVG sections of plugin/recon
+    target_compile_definitions(GEOLIB PUBLIC GEO_ENABLE_OPENMVG)
+    if(TARGET OpenMVG::openMVG_sfm)
+        target_link_libraries(GEOLIB PUBLIC OpenMVG::openMVG_sfm)
+    endif()
+endif()
 
 if(SUPPORT_MODELS AND assimp_FOUND) # linking targets to Assimp
    # target_link_libraries(GEOLIB PUBLIC assimp::assimp ${irrXML_lib} ${zlib_lib}) # for release build

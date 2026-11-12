@@ -64,8 +64,7 @@ endif()
 
 if(SUPPORT_ALGOFORMS AND OpenVDB_FOUND)
 	if(OpenVDB_FOUND)
-		message(STATUS "OpenVDB loading success!")
-		list(APPEND geometry_src plugin/form/Geo_Freeform.cpp)
+		message(STATUS "OpenVDB loading success!") # form sources are listed in internalTargets.cmake, OpenVDB adds grid conversions to them
 	else()
 		message(WARNING "OpenVDB loading failure, algorithmic formation support disabled")
 	endif()
@@ -89,8 +88,7 @@ endif()
 
 if(SUPPORT_PHOTOGRAM AND OpenMVG_FOUND)
 	if(OpenMVG_FOUND)
-		message(STATUS "OpenMVG loading success!")
-		# list(APPEND geometry_src plugin/recon/Geo_Photogram.cpp) TODO: Add source
+		message(STATUS "OpenMVG loading success!") # recon sources are listed in internalTargets.cmake, OpenMVG adds solved cameras to them
 	else()
 		message(WARNING "OpenMVG loading failure, photographic reconstruction support disabled")
 	endif()
