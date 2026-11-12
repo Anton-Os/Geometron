@@ -31,7 +31,6 @@ target_include_directories(GEOLIB INTERFACE
     $<INSTALL_INTERFACE:include/Geometron>
 )
 
-<<<<<<< HEAD
 if(SUPPORT_ALGOFORMS AND OpenVDB_FOUND) # enables OpenVDB sections of plugin/form
     set_target_properties(GEOLIB PROPERTIES CXX_STANDARD 17) # required by OpenVDB headers
     target_compile_definitions(GEOLIB PUBLIC GEO_ENABLE_OPENVDB)
@@ -50,8 +49,6 @@ if(SUPPORT_PHOTOGRAM AND OpenMVG_FOUND) # enables OpenMVG sections of plugin/rec
     endif()
 endif()
 
-=======
->>>>>>> da31b76 (Build System Unix Updates)
 if(SUPPORT_MODELS AND assimp_FOUND) # linking targets to Assimp
    # target_link_libraries(GEOLIB PUBLIC assimp::assimp ${irrXML_lib} ${zlib_lib}) # for release build
    target_link_libraries(GEOLIB PUBLIC assimp::assimp ${irrXMLd_lib} ${zlibd_lib}) # for debug build
