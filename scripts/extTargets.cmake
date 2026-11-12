@@ -49,7 +49,7 @@ if(SUPPORT_ALGOFORMS)
 		PREFIX ${EXTERNAL_PROJ_DIR}/OpenVDB
 		INSTALL_DIR ${CMAKE_INSTALL_PREFIX}
 	)
-        if(EXISTS ${EXTERNAL_LIB_DIR}/cmake/OpenVDB/FindOpenVDB.cmake)
+    if(EXISTS ${EXTERNAL_LIB_DIR}/cmake/OpenVDB/FindOpenVDB.cmake)
 		list(APPEND CMAKE_MODULE_PATH ${EXTERNAL_LIB_DIR}/cmake/OpenVDB)
 		# include(${EXTERNAL_LIB_DIR}/cmake/OpenVDB/FindBlosc.cmake)
 		include(${EXTERNAL_LIB_DIR}/cmake/OpenVDB/FindOpenVDB.cmake)
