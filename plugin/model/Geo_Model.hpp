@@ -11,7 +11,7 @@
 #include "Geo_Construct.hpp"
 
 #ifdef TOPL_ENABLE_TEXTURES
-unsigned linedTopl_Sampler_callback(double x, double y){ return (cos(y * 20) < 0.5)? 0xAA00FF00 : 0xAAFF00FF; }
+inline unsigned linedTopl_Sampler_callback(double x, double y){ return (cos(y * 20) < 0.5)? 0xAA00FF00 : 0xAAFF00FF; }
 #endif
 
 class Geo_Model3D : public Geo_Construct<Geo_Model3D> {

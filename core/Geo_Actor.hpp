@@ -5,6 +5,12 @@
 
 #include "Geo_Mesh.hpp"
 
+#if defined(__has_include)
+#if __has_include("Controls.hpp")
+#include "Controls.hpp" // input events of Topologic, actors are the same for every source once it is on the include path
+#endif
+#endif
+
 // Actor
 
 #define DEFAULT_ACTOR_ID 0xFFFFFFFF

@@ -132,7 +132,7 @@ protected:
 #endif
 #ifdef GEO_ENABLE_MODELS // should be included if TOPL_ENABLE_MODELS is defined
 
-#include "constructs/Geo_Model.hpp"
+#include "model/Geo_Model.hpp"
 
 // typedef const std::string puppetModelPaths[PUPPET_PARTS]; // list of paths for loading models
 
